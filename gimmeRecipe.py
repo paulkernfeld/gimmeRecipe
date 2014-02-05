@@ -32,6 +32,11 @@ def addSelected():
             selected_names.append(dinnerbox_names[int(index)])
             chosenbox.insert('end', dinnerbox_names[int(index)])
 
+def removeSelected():
+    for index in chosenbox.curselection():
+	selected_names.remove(selected_names[int(index)])
+	chosenbox.delete(int(index))
+
 def showIngredients():
     dish_marker=False;#Indicates whether the name we last passed is a selected dish
     ingred_marker=False;#Indicates whether we are in the ingredients section
@@ -64,7 +69,7 @@ add_selection = Tkinter.Button(win, text ="Add Selected Items", command = addSel
 add_selection.pack(side='top')
 show_ingredients = Tkinter.Button(win, text = "Show Ingredients", command = showIngredients)
 show_ingredients.pack(side='top')
-new_recipe = Tkinter.Button(win, text ="Add a New Recipe", command = newRecipe)
+new_recipe = Tkinter.Button(win, text ="Remove Selected Items", command = removeSelected)
 new_recipe.pack(side='top')
 
 new_name_box = Text(win, width=25,height=1);
