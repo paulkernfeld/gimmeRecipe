@@ -16,7 +16,9 @@ for line in database:
 win = Tkinter.Tk()
 
 def randomRecipe():
-    displayedName=random.choice(names)
+    # Choose randomly from the names, NOT including the names already in the
+    # dinnerbox. Note that this will break if it's clicked too many times.
+    displayedName=random.choice([n for n in set(names) - set(dinnerbox_names)])
     #tkMessageBox.showinfo("Here\'s one!", "How about " + displayedName +"?")
     dinnerbox.insert('end', "How about " + displayedName +"? ")
     dinnerbox_names.append(displayedName)
