@@ -2,11 +2,13 @@
 import random
 import Tkinter
 from Tkinter import *
+from tkMessageBox import *
+
 names=[];
 dinnerbox_names=[];
 selected_names=[];
 
-database=open('allthefood.txt')
+database=open('allthefood.txt', 'a+')
 
 for line in database:
     if 'Name:' in line:
@@ -60,7 +62,35 @@ def showIngredients():
             ingredbox.insert('end', line)
 
 def newRecipe():
-    print ''
+    new_recipe_entry_window = Toplevel();
+    
+    name_label = Label(new_recipe_entry_window, text="Name:")
+    name_label.pack(side='top')
+    new_name_box = Entry(new_recipe_entry_window);
+    new_name_box.pack(side='top')
+    
+    ing_label = Label(new_recipe_entry_window, text="Ingredients:")
+    ing_label.pack(side='top')
+    new_ing_box = Text(new_recipe_entry_window, width=25,height=15);
+    new_ing_box.pack(side='top')
+    
+    instr_label = Label(new_recipe_entry_window, text="Instructions:")
+    instr_label.pack(side='top')
+    new_instr_box = Text(new_recipe_entry_window, width=25,height=10);
+    new_instr_box.pack(side='top')
+    
+    add_recipe = Tkinter.Button(new_recipe_entry_window, text ="Add this as a recipe", command = lambda: add_new_recipe(new_name_box, new_ing_box, new_instr_box))
+    add_recipe.pack(side='top')
+
+
+def add_new_recipe(new_name_box, new_ing_box, new_instr_box):
+    new_name = new_name_box.get()
+    new_ing = new_ing_box.get("0.0",END)
+    new_instr = new_instr_box.get("0.0",END)
+    database.write('\n'+'Name:' + new_name + '\n')
+    database.write('Ingredients' + '\n' + new_ing + '\n')
+    database.write('Instructions:' + '\n' + new_instr + '\n')
+    showinfo(title='Recipe added', message='Your recipe has been added.')
 
 
 gimme = Tkinter.Button(win, text ="Gimme", command = randomRecipe)
@@ -69,11 +99,10 @@ add_selection = Tkinter.Button(win, text ="Add Selected Items", command = addSel
 add_selection.pack(side='top')
 show_ingredients = Tkinter.Button(win, text = "Show Ingredients", command = showIngredients)
 show_ingredients.pack(side='top')
-new_recipe = Tkinter.Button(win, text ="Remove Selected Items", command = removeSelected)
+remove_selected_item = Tkinter.Button(win, text ="Remove Selected Items", command = removeSelected)
+remove_selected_item.pack(side='top')
+new_recipe = Tkinter.Button(win, text ="Add new recipe", command = newRecipe)
 new_recipe.pack(side='top')
-
-new_name_box = Text(win, width=25,height=1);
-new_name_box.pack(side='bottom')
 
 dinnerbox = Tkinter.Listbox(win, width=50,height=30)
 dinnerbox.pack(side='left')
