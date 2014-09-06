@@ -8,7 +8,7 @@ names = []
 dinnerbox_names = []
 selected_names = []
 
-database = open('allthefood.txt', 'a+')
+database = open('allthefood.txt', 'ra+')
 
 for line in database:
     if 'Name:' in line:
